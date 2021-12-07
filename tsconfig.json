@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "ESNext",
+        "strict": true,
+        "sourceMap": true,
+        "removeComments": true,
+        "outDir": "scripts",
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+
+    "exclude": [
+        "dist",
+        //"node_modules"
+    ],
+
+    "files": [
+        "Server.ts",
+        "Website.ts",
+        "world.ts",
+        "Helper.ts"
+    ]
+}

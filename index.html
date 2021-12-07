@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, td {
+                border: 1px solid #333
+            }
+
+            thead, tfoot {
+                background-color: #333; 
+                color: #fff;
+            }
+        </style>
+        <script type="module" src="scripts/Website.js"></script>
+    </head>
+    <body>
+        <button style="font-size: 50px;" onclick="forward()">Forward</button>
+        <button style="font-size: 50px;" onclick="back()">Back</button>
+        <button style="font-size: 50px;" onclick="right()">Right</button>
+        <button style="font-size: 50px;" onclick="left()">Left</button>
+        <button style="font-size: 50px;" onclick="up()">Up</button>
+        <button style="font-size: 50px;" onclick="down()">Down</button>
+        
+        <br>
+        
+        <div>
+            <button id="RefreshComps" style="font-size: 30px">Refresh</button>
+            <table id="Computers">
+                <tr>
+                    <th colspan="2">Computers</th>
+                    <th>Status</th>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
