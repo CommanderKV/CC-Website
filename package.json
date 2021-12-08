@@ -1,7 +1,9 @@
 {
     "type": "module",
     "dependencies": {
+        "@types/three": "^0.135.0",
         "@types/ws": "^8.2.2",
+        "three": "^0.135.0",
         "websocket": "^1.0.34",
         "ws": "^8.3.0"
     }
