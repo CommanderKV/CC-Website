@@ -106,7 +106,7 @@ export function makeComputerTable(msg: messageFormat, connectedComputer: string 
         computers.forEach(function each(computer: string){
             tableCode += "<tr><td>" + computer + '</td><td><button';
             tableCode += " id=\"" + computer + '">Select</button></td>';
-            if (computer in inUse) {
+            if (inUse.includes(computer)) {
                 tableCode += '<td id="' + computer + 'STATUS">In Use</td>';
             
             } else if (connectedComputer !== null && connectedComputer == computer) {
