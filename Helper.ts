@@ -4,10 +4,10 @@
 
 
 export type connectionInfo = {
-    ID: number      | string,
-    ws: any         | null,
-    inUse: boolean,
-    connectedTo: connectionInfo     | null
+    ID:             number          | string,
+    ws:             any             | null,
+    inUse:          boolean,
+    connectedTo:    connectionInfo  | null
 };
 
 export type messageFormat = {
@@ -96,7 +96,7 @@ export function getConnection(ID: string | number, computerIDS: connectionInfo[]
 // Make the computer table //
 /////////////////////////////
 
-export function makeComputerTable(msg: messageFormat) {
+export function makeComputerTable(msg: messageFormat, connectedComputer: string | null) {
     let tableCode: string = '<tr><th colspan="2">Computers</th><th>Status</th></tr>';
 
     let computers: string[] = msg.info as string[] || [];
@@ -108,6 +108,10 @@ export function makeComputerTable(msg: messageFormat) {
             tableCode += " id=\"" + computer + '">Select</button></td>';
             if (computer in inUse) {
                 tableCode += '<td id="' + computer + 'STATUS">In Use</td>';
+            
+            } else if (connectedComputer !== null && connectedComputer == computer) {
+                tableCode += "<td id=\"" + computer + "STATUS\">Connected";
+
             } else {
                 tableCode += '<td id="' + computer + 'STATUS">Open</td>';
             }

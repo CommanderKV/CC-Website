@@ -16,11 +16,11 @@ var lastLogedType = "";
 var ammount = 0;
 function log(type, ID) {
     if (type == "webNAME") {
-        if (lastLogedType == type) {
-            console.log("Completed command. ID set for:", ID);
+        if (lastLogedType != type) {
+            console.log("\nProcessing a 'webNAME' command ...");
         }
         else if (ammount <= 2) {
-            console.log("\nProcessing a 'webNAME' command ...");
+            console.log("Completed command. ID set for:", ID);
         }
     }
     else if (type == "computerNAME") {
@@ -189,25 +189,34 @@ wss.on("connection", function connection(ws) {
                 var conn = getConnection(msgParse.dest, computerIDS, websiteIDS);
                 if (conn != false) {
                     computerIDS.forEach(function each(computer) {
+                        var web;
                         if (computer.ID === msgParse.source) {
-                            var web = null;
+                            web = null;
                             websiteIDS.forEach(function each(website) {
                                 if (website.ID === msgParse.dest) {
                                     web = website;
+                                    return;
                                 }
                             });
-                            if (web != null) {
+                            if (web !== null) {
+                                var webb = web;
+                                webb.connectedTo = computer;
+                                webb.inUse = true;
                                 computer.connectedTo = web;
+                                computer.inUse = true;
                                 msgParse.ws = conn;
                                 send([msgParse]);
+                                websiteIDS.forEach(function each(website) {
+                                    if (website.ID === webb.ID) {
+                                        website = webb;
+                                    }
+                                });
                             }
                             else {
-                                send([{
-                                        source: "SERVER",
-                                        dest: msgParse.source,
-                                        type: "DISCONNECT",
-                                        ws: computer.ws
-                                    }]);
+                                disconnectComputer(computerIDS, msgParse);
+                                console.log("Sent discconect to:", msgParse.source);
+                                computer.connectedTo = null;
+                                computer.inUse = false;
                             }
                         }
                     });
@@ -238,7 +247,6 @@ wss.on("connection", function connection(ws) {
                     msgParse.source = "SERVER";
                     msgParse.type = "PONG";
                     send([msgParse]);
-                    send([{ source: "SERVER", type: "COMMAND", func: "turtle.forward()", dest: msgParse.source, ws: conn }]);
                     log(msgParse.type, msgParse.info);
                 }
                 else {
@@ -255,16 +263,19 @@ wss.on("connection", function connection(ws) {
         ;
     });
     ws.onclose = function close(event) {
+        console.log();
         let delMe = { ID: "NONE", ws: null, inUse: false, connectedTo: null };
         websiteIDS.forEach(function each(website) {
-            if (website.ws === ws) {
+            if (website.ID === ws.ID) {
                 delMe = website;
+                return;
             }
         });
         if (delMe.ID == "NONE") {
             computerIDS.forEach(function each(computer) {
-                if (computer.ws === ws) {
+                if (computer.ID === ws.ID) {
                     delMe = computer;
+                    return;
                 }
             });
         }
@@ -273,6 +284,7 @@ wss.on("connection", function connection(ws) {
                 var conn = delMe.connectedTo;
                 conn.inUse = false;
                 send([{ source: delMe.ID, type: "DISCONNECT", info: "From Server.ts:338", dest: conn.ID, ws: conn.ws }]);
+                console.log("Sent 'DISCONNECT' command to:", conn.ID);
             }
         }
         websiteIDSonly.forEach((value, index) => {

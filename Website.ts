@@ -1,6 +1,6 @@
 import { messageFormat, send, makeComputerTable } from "./Helper.js";
 
-var ws = new WebSocket("ws://6f92-104-222-117-183.ngrok.io"); // ws://localhost:8081
+var ws = new WebSocket("ws://caac-104-222-117-183.ngrok.io"); // ws://localhost:8081
 
 function getID(max: number): number {
     return Math.floor(Math.random() * max+1);
@@ -43,9 +43,8 @@ ws.onmessage = function (event) {
         ///////////////////////////////
 
         case "computersACCEPT" || "COMPUTERS": 
-            console.log("Processing a 'computersACCEPT' command ...");
 
-            var table: string = makeComputerTable(msg);
+            var table: string = makeComputerTable(msg, connectionDetails.computerName as string);
             var tableLink = <HTMLTableElement>document.getElementById("Computers");
             tableLink.innerHTML = table;
 
@@ -58,8 +57,6 @@ ws.onmessage = function (event) {
                     });
                 })
             } 
-        
-            console.log("Completed 'computersACCEPT' command ...");
 
             break;
 
@@ -91,7 +88,7 @@ ws.onmessage = function (event) {
         case "conDENIED":
             console.log("Processing a 'conDENIED' command ...");
 
-            makeComputerTable(msg);
+            makeComputerTable(msg, connectionDetails.computerName as string);
 
             console.log("Completed 'conDENIED' command ...");
 
@@ -162,8 +159,27 @@ window.onunload = function() {
 };
 
 
+var directions = [
+    "Forward",
+    "Back",
+    "Right",
+    "Left",
+    "Up",
+    "Down"
+]
 
+var directionCommands = [
+    forward,
+    back,
+    right,
+    left,
+    up,
+    down
+]
 
+directions.forEach(function each(direction, index) {
+    document.getElementById(direction)?.addEventListener("click", directionCommands[index]);
+});
 
 
 function forward(){

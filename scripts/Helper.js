@@ -48,7 +48,7 @@ export function getConnection(ID, computerIDS, websiteIDS, debug = false) {
     });
     return returnMe || false;
 }
-export function makeComputerTable(msg) {
+export function makeComputerTable(msg, connectedComputer) {
     let tableCode = '<tr><th colspan="2">Computers</th><th>Status</th></tr>';
     let computers = msg.info || [];
     let inUse = msg.func || [];
@@ -58,6 +58,9 @@ export function makeComputerTable(msg) {
             tableCode += " id=\"" + computer + '">Select</button></td>';
             if (computer in inUse) {
                 tableCode += '<td id="' + computer + 'STATUS">In Use</td>';
+            }
+            else if (connectedComputer !== null && connectedComputer == computer) {
+                tableCode += "<td id=\"" + computer + "STATUS\">Connected";
             }
             else {
                 tableCode += '<td id="' + computer + 'STATUS">Open</td>';

@@ -1,6 +1,6 @@
 var _a;
 import { send, makeComputerTable } from "./Helper.js";
-var ws = new WebSocket("ws://6f92-104-222-117-183.ngrok.io");
+var ws = new WebSocket("ws://caac-104-222-117-183.ngrok.io");
 function getID(max) {
     return Math.floor(Math.random() * max + 1);
 }
@@ -19,8 +19,7 @@ ws.onmessage = function (event) {
             console.log("Completed 'COMPUTERNAME' command ...");
             break;
         case "computersACCEPT" || "COMPUTERS":
-            console.log("Processing a 'computersACCEPT' command ...");
-            var table = makeComputerTable(msg);
+            var table = makeComputerTable(msg, connectionDetails.computerName);
             var tableLink = document.getElementById("Computers");
             tableLink.innerHTML = table;
             var computers = msg.info || [];
@@ -32,7 +31,6 @@ ws.onmessage = function (event) {
                     });
                 });
             }
-            console.log("Completed 'computersACCEPT' command ...");
             break;
         case "conACCEPT":
             console.log("Processing a 'conACCEPT' command ...");
@@ -45,7 +43,7 @@ ws.onmessage = function (event) {
             break;
         case "conDENIED":
             console.log("Processing a 'conDENIED' command ...");
-            makeComputerTable(msg);
+            makeComputerTable(msg, connectionDetails.computerName);
             console.log("Completed 'conDENIED' command ...");
             break;
         case "DISCONNECT":
@@ -85,6 +83,26 @@ setInterval(() => {
 window.onunload = function () {
     ws.close();
 };
+var directions = [
+    "Forward",
+    "Back",
+    "Right",
+    "Left",
+    "Up",
+    "Down"
+];
+var directionCommands = [
+    forward,
+    back,
+    right,
+    left,
+    up,
+    down
+];
+directions.forEach(function each(direction, index) {
+    var _a;
+    (_a = document.getElementById(direction)) === null || _a === void 0 ? void 0 : _a.addEventListener("click", directionCommands[index]);
+});
 function forward() {
     if (connectionDetails.computerName !== null) {
         console.log("Sent a 'COMMAND' command");
