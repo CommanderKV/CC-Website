@@ -265,13 +265,3 @@ function down(){
         ]);
     }
 }
-
-
-
-
-///////////////////////////
-// Testing purposes only //
-///////////////////////////
-/*ws.addEventListener("message", msg=>{
-    console.log(msg.data);
-});*/
