@@ -1,6 +1,6 @@
 import { messageFormat, send, makeComputerTable } from "./Helper.js";
 
-var ws = new WebSocket("ws://caac-104-222-117-183.ngrok.io"); // ws://localhost:8081
+var ws = new WebSocket("wss://caac-104-222-117-183.ngrok.io"); // ws://localhost:8081
 
 function getID(max: number): number {
     return Math.floor(Math.random() * max+1);
