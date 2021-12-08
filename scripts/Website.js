@@ -54,6 +54,10 @@ ws.onmessage = function (event) {
             connectionDetails.computerName = null;
             console.log("Completed 'DISCONNECT' command");
             break;
+        case "RETURN":
+            var temp = document.getElementById("Result");
+            temp.innerHTML = "Command output: '" + msg.info;
+            break;
         default:
             console.log("Unknown command", msg.type);
             break;
