@@ -56,7 +56,7 @@ ws.onmessage = function (event) {
             break;
         case "RETURN":
             var temp = document.getElementById("Result");
-            temp.innerHTML = "Command output: '" + msg.info;
+            temp.innerHTML = "Command output: '" + msg.info + "'";
             break;
         default:
             console.log("Unknown command", msg.type);

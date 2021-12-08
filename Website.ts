@@ -114,7 +114,7 @@ ws.onmessage = function (event) {
 
         case "RETURN":
             var temp = <HTMLDivElement>document.getElementById("Result");
-            temp.innerHTML = "Command output: '" + msg.info;
+            temp.innerHTML = "Command output: '" + msg.info + "'";
             break;
 
         default:
