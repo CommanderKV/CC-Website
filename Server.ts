@@ -9,7 +9,6 @@ import {
 } from "./Helper.js";
 
 import { WebSocket, WebSocketServer } from "ws";
-import { WebGLExtensions } from "three";
 
 const wss = new WebSocketServer({port: 8081});
 
